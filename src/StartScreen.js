@@ -5,7 +5,7 @@ import startIMG from './pictures/images.png';
 // This will just display the start screen until the user clicks the start button
 function StartScreen(props) {
 
-    if (props.page === 1) {
+    if (props.pageNum === 1) {
         return (
             <div className="intro">
                 <div style={{animation:"fadein 3s linear"}}>
@@ -18,7 +18,7 @@ function StartScreen(props) {
                     </div>
 
                     <div>
-                    <button className="btn btn-lg btn-dark" style={{animation:"fadeinlate 3s linear", width: "200px", }} onClick={() => props.nextPage()}>
+                    <button className="btn btn-lg btn-dark" style={{animation:"fadeinlate 3s linear", width: "200px"}} onClick={() => props.IncrementPage()}>
                         <span>Start</span>
                         <span className="material-icons md-48" style={{verticalAlign: "-14px", fontSize:"40px", marginLeft: "10px"}}>
                         arrow_right_alt

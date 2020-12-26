@@ -6,7 +6,7 @@ import logo from './pictures/aware-logo.png';
 // Super app, the logo is only meant to be displayed for a short period of time
 function IntroScreen(props) {
 
-    if (props.page === 0) {
+    if (props.pageNum === 0) {
         return (
             <div className="start">
                 <img src={logo} alt="" className="awarelogo"/>

@@ -11,7 +11,7 @@ This web application provides a calculator that explains the impact of voluntary
 https://econ3117.web.app/
 
 ## Stack
-This was developed using ReactJS & Firebase
+This was developed using ReactJS and is hosted on a Firebase server
 
 ## Other Info
 In order to properly learn React Functional Components & React Hooks, I decided to recreate the project after completing using those methods.
