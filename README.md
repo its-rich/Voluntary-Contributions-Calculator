@@ -18,8 +18,8 @@ In order to properly learn React Functional Components & React Hooks, I decided 
 
 |Branch|Version|
 |--|--|
-|Master|Refactored with Functional Components|
- |Production|Original with Class Components|
+|main|Refactored with Functional Components|
+ |production|Original with Class Components|
 
 ## Create React App
 
