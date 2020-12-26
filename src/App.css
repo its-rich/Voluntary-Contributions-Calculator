@@ -1,0 +1,175 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+    background-color:  #d6d6d6;
+    color: white;
+}
+
+.start {
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+}
+
+.awarelogo {
+    max-width: 100%;
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+    opacity: 1;
+    animation: fade 4s linear;
+}
+
+@keyframes fade {
+    0%,100% { opacity: 0 }
+    50% { opacity: 1 }
+}
+
+.intro {
+    position: absolute;
+    /* background-color: #b82885; */
+    color: #b82885;
+    font-size: 40px;
+    padding-top: 25vh;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes fadein {
+    0% { opacity: 0 }
+    50% { opacity: 1 }
+}
+
+@keyframes fadeinlate {
+    0% { opacity: 0 }
+    80% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+.mat-icon {
+   vertical-align: middle;
+}
+
+.input {
+    position: absolute;
+    /* background-color: #b82885; */
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+.age {
+    position: absolute;
+    padding-top: 3vh;
+}
+
+.selectAge {
+    /* color: #e5007e; */
+    margin-top: 2vh;
+}
+
+
+.table-hover tbody tr {
+    border: 1px solid black;
+}
+
+.table-hover tbody tr td {
+    border: 1px solid black;
+}
+
+.table-hover tbody tr {
+    border: 1px solid black;
+}
+
+.table-hover thead tr {
+    border: 1px solid black;
+}
+
+.table-hover thead tr th {
+    border: 1px solid black;
+}
+
+.table-hover thead th {
+    border: 1px solid black;
+}
+
+.table th {
+    border-top: 1px solid black;
+}
+
+.aus {
+    width: 60px;
+    height: 60px;
+}
+
+@media only screen and (min-width: 1025px) {
+    .move {
+        padding-left: 33vw;
+    }
+    .yesButton {
+        margin-right: 100px;
+    }
+}
+
+
+
+.modal {
+    display: block;
+}
+
+.moreinfo {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 2;
+}
+
+.moreinfo2 {
+    position: absolute;
+    right: 0px;
+    z-index: 2;
+}
