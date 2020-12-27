@@ -1,26 +1,13 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import './App.css';
-import Modal from './Modal.js';
+import Modal from './modal/Modal.js';
+import { DoesGovContribute, assumptionsMade } from './modal/ModalInfo.js';
+// import RewardProgressBar from './RewardProgressBar.js';
+// <RewardProgressBar/>
 
 const ACTIONS = {
     PUSH: 'push-contribution',
     ADD: 'add-contribution'
-}
-
-//
-function GovContribution(salary) {
-    if (salary < 39838) {
-        return 50;
-    } else if (salary < 42838) {
-        return 40;
-    } else if (salary < 45838) {
-        return 30;
-    } else if (salary < 51838) {
-        return 20;
-    } else if (salary < 54838) {
-        return 10;
-    }
-    return -1;
 }
 
 function reducer(contributions, action) {
@@ -44,13 +31,15 @@ function InputScreen(props) {
         isYearly: null
     });
 
-    // Create an array of valid ages before retirement
+    // Create an array of valid ages before retirement which allows a user to
+    // select their age
     const ages = [];
     for (let i = 18; i < 65; i++) {
         ages.push(i);
     }
 
-    // Create an array of valid years until retirement
+    // Create an array of valid years until retirement which is used to allow
+    // a user to select how long they would like to contribute for
     const duration = [];
     for (let i = 1; i <= (65 - 18); i++) {
         duration.push(i);
@@ -82,16 +71,14 @@ function InputScreen(props) {
         });
     }
 
-    // <p>Since your annual salary is under $39,838, the government will also contribute 50% of every dollar
-    // that you voluntary contribute to your super as well. This means you could get an extra $500 each year for free! We will add this into our calculations<br/><br/>To see if
-    // if you're eligible, check out <a href="https://aware.com.au/member/superannuation-and-insurance/contributions/government-co-contributions" target="_blank">
-    // Aware Super</a></p>
-
-    let govContribution = 'd';
-
     if (props.pageNum === 2) {
         return (
             <div className="input" style={{animation:"fadein 3s linear"}}>
+
+                <Modal title="How We Calculated Everything" text={assumptionsMade} info={true}/>
+
+                {userInfo.isYearly !== null &&
+                    <Modal title="Did You Know?" text={DoesGovContribute(userInfo.salary * 26)} show={DoesGovContribute(userInfo.salary * 26)}/>}
 
                 <div className="selectAge">
                     <h2 style={{color:"#e5007e"}}>Please Select Your Age
@@ -114,6 +101,11 @@ function InputScreen(props) {
                     <input type="number" value={userInfo.salary} onChange={(e) => setSalary(e.target.value)}></input>
                 </div>
 
+
+                {/*
+                I thought about changing this such that it would take the sacrifices/commitments from a database for
+                extensibility purposes, but because this website is just a proof of concept, I felt it would be unnecessary
+                */}
                 <div>
                     <h2 style={{color:"#e5007e"}}>Please Select What You Will Start Doing Today
                         <span className="material-icons md-48" style={{verticalAlign: "-10px", fontSize:"40px"}}>account_balance_wallet</span>
