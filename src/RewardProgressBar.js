@@ -21,7 +21,7 @@ function CalculatePercentage(superValue) {
     }
 
     // If they have achieved all goals then return 100%
-    if (i == rewardTiers.length) {
+    if (i === rewardTiers.length) {
         return 100;
     }
 
@@ -47,14 +47,14 @@ function RewardProgressBar(props) {
             percent={percentage}
             filledBackground="linear-gradient(to right, #a4dfcc, #4BB543)"
         >
-        {rewards.map((item) => {
-            return (
-                <Step transition="scale">
-                  {({ accomplished }) => (
-                    <span className="material-icons" style={{ filter: `grayscale(${accomplished ? 0 : 100}%)` }} width="30">{item}</span>
-                  )}
-                </Step>);
-        })}
+            {rewards.map((item) => {
+                return (
+                    <Step transition="scale">
+                      {({ accomplished }) => (
+                        <span className="material-icons" style={{ filter: `grayscale(${accomplished ? 0 : 100}%)` }} width="30">{item}</span>
+                      )}
+                    </Step>);
+            })}
         </ProgressBar>
     );
 };

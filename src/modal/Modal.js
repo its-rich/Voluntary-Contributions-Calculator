@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../App.css';
 
 // This is just a generic Modal that is will display a specific set of text
@@ -6,10 +6,22 @@ import '../App.css';
 function Modal(props) {
 
     const [isVisible, setVisible] = useState(props.show);
+    let prevPropsRef = useRef(props.show);
 
     function ChangeVisibility() {
+
         isVisible ? setVisible(false) : setVisible(true);
     }
+
+    useEffect(() => {
+
+        // When the user clicks the image on the parent component, it will change
+        // the props, thus this will respond to that change
+        if (prevPropsRef.current !== undefined && prevPropsRef.current !== props.show) {
+            prevPropsRef.current = !prevPropsRef.current;
+            ChangeVisibility();
+        }
+    })
 
     if (isVisible) {
         return (

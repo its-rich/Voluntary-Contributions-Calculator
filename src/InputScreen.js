@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import './App.css';
 import Modal from './modal/Modal.js';
-import { DoesGovContribute, assumptionsMade } from './modal/ModalInfo.js';
-// import RewardProgressBar from './RewardProgressBar.js';
-// <RewardProgressBar/>
+import { DoesGovContribute, assumptionsModal } from './modal/ModalInfo.js';
+import OneOffSummary from './OneOffSummary.js';
 
 const ACTIONS = {
     PUSH: 'push-contribution',
@@ -75,10 +74,9 @@ function InputScreen(props) {
         return (
             <div className="input" style={{animation:"fadein 3s linear"}}>
 
-                <Modal title="How We Calculated Everything" text={assumptionsMade} info={true}/>
+                {assumptionsModal}
 
-                {userInfo.isYearly !== null &&
-                    <Modal title="Did You Know?" text={DoesGovContribute(userInfo.salary * 26)} show={DoesGovContribute(userInfo.salary * 26)}/>}
+                {userInfo.isYearly !== null && DoesGovContribute(userInfo.salary * 26)}
 
                 <div className="selectAge">
                     <h2 style={{color:"#e5007e"}}>Please Select Your Age
@@ -190,6 +188,11 @@ function InputScreen(props) {
                         </span>
                     </button>}
                 </div>}
+
+                {/*
+                    Passing in the object like this works!
+                */}
+                <OneOffSummary userInfo={userInfo}/>
 
             </div>
         );
