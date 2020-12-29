@@ -9,7 +9,6 @@ function Modal(props) {
     let prevPropsRef = useRef(props.show);
 
     function ChangeVisibility() {
-
         isVisible ? setVisible(false) : setVisible(true);
     }
 

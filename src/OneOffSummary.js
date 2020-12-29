@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React from 'react';
 import './App.css';
 import CountUp from 'react-countup';
 import { contributionsModal } from './modal/ModalInfo.js';
@@ -7,11 +7,12 @@ import RewardsTable from './RewardsTable.js';
 import MoreInfo from './MoreInfo.js';
 
 //
-function calculateSuper(userInfo) {
+function calculateSuper(userInfo, contribution) {
 
     let superValue = 0;
     let yearsContributed = 1;
     let salary = userInfo.salary * 26;
+    contribution = Number.parseInt(contribution);
 
     for (let i = userInfo.age; i < 65 ; i++) {
 
@@ -19,17 +20,17 @@ function calculateSuper(userInfo) {
             break;
         }
 
-        superValue += userInfo.contribution;
+        superValue += contribution;
         if (salary < 39838) {
-            superValue += userInfo.contribution * 0.5;
+            superValue += contribution * 0.5;
         } else if (salary < 42838) {
-            superValue += userInfo.contribution * 0.4;
+            superValue += contribution * 0.4;
         } else if (salary < 45838) {
-            superValue += userInfo.contribution * 0.3;
+            superValue += contribution * 0.3;
         } else if (salary < 51838) {
-            superValue += userInfo.contribution * 0.2;
+            superValue += contribution * 0.2;
         } else if (salary < 54838) {
-            superValue += userInfo.contribution * 0.1;
+            superValue += contribution * 0.1;
         }
 
         superValue *= 1.035;
@@ -42,7 +43,7 @@ function calculateSuper(userInfo) {
 
 function OneOffSummary(props) {
 
-    let superValue = calculateSuper(props.userInfo);
+    let superValue = calculateSuper(props.userInfo, props.contribution);
 
     return(
         <div className="output">
@@ -53,13 +54,13 @@ function OneOffSummary(props) {
                 <div className="row">
                     <div className="col" style={{fontSize: "60px", marginBottom:"5vh", marginTop: "5vh"}}>
                       Your Super Increased By An Additional<br/>
-                       <CountUp style={{color:"black"}} start={0} end={100} duration={3} decimal={","} prefix={"$"}/>
+                       <CountUp style={{color:"black"}} start={0} end={superValue} duration={3} decimal={","} prefix={"$"}/>
                     </div>
                 </div>
 
-                <RewardsTable superValue={superValue}/>
+                <RewardsTable superValue={superValue} title={`What An Extra $${superValue} In Retirement, Means For You:`}/>
                 <RewardProgressBar superValue={superValue}/>
-                <MoreInfo superValue={superValue} contribution={0} />
+                <MoreInfo superValue={superValue} contribution={props.contribution} />
 
             </div>
 

@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useReducer } from 'react';
-import { contributionsInfo, contributeNow } from './modal/ModalInfo.js';
+import React, { useState } from 'react';
+import { contributionsInfo } from './modal/ModalInfo.js';
 import Modal from './modal/Modal.js';
 
 const compoundingInterestExplained =
-    <h4 style={{color:"black", fontWeight:"400", paddingLeft:"10%", paddingRight:"10%", marginBottom:"5vh"}}>This is because of <a target="_blank" href="https://aware.com.au/blog/compounding-interest-boost-your-super#:~:text=Compounding%20interest%20snowballs%20your%20savings,will%20help%20you%20in%20retirement.&text=Generally%2C%20if%20you%20earn%20over,grow%20until%20you%20reach%20retirement.">
+    <h4 style={{color:"black", fontWeight:"400", paddingLeft:"10%", paddingRight:"10%", marginBottom:"5vh"}}>This is because of <a target="_blank" rel="noreferrer" href="https://aware.com.au/blog/compounding-interest-boost-your-super#:~:text=Compounding%20interest%20snowballs%20your%20savings,will%20help%20you%20in%20retirement.&text=Generally%2C%20if%20you%20earn%20over,grow%20until%20you%20reach%20retirement.">
     Compounding Interest!</a> By saving your money in your Super, you can grow it larger than just leaving it your bank account, as your Super fund offers higher interest rates.
      So your Super will grow even larger with regular voluntary contributions!
     </h4>
 
-//
+// All of this information is displayed underneath the RewardProgressBar and explains
+// extra information about compounding interest, the First Home Super Scheme &
+// allows a user to make a voluntary contribution
 function MoreInfo(props) {
 
     const [contributeNow, setContributeNow] = useState(false);

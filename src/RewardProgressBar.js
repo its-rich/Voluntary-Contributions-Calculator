@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React from 'react';
 import './App.css';
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
@@ -35,6 +35,9 @@ function CalculatePercentage(superValue) {
     return percent;
 };
 
+// Returns a progress bar with images of a reward at each reward tier and these
+// images will be coloured in if and only if the user's super has reached that
+// target
 function RewardProgressBar(props) {
 
     let rewards = ['theaters', 'sports_football', 'shopping_bag', ' flight_takeoff', 'explore',

@@ -1,34 +1,51 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer, useRef } from 'react';
 import './App.css';
-import Modal from './modal/Modal.js';
 import { DoesGovContribute, assumptionsModal } from './modal/ModalInfo.js';
 import OneOffSummary from './OneOffSummary.js';
 
+// These actions/enumerated types represent a set actions that need to be
+// performed on the contributions state array
 const ACTIONS = {
     PUSH: 'push-contribution',
-    ADD: 'add-contribution'
+    ADD: 'add-contribution',
+    POP: 'pop-contribution',
+    SWITCH: 'switch-scope'
 }
 
+// A reducer is a pure function without any side efffects
+//          Same Input ==> Expected Output
+// Always returns a new state object as the argument state is immutabile
 function reducer(contributions, action) {
     if (action.type === ACTIONS.PUSH) {
         return [...contributions, { contribution: action.payload.contribution }];
     } else if (action.type === ACTIONS.ADD) {
         return [{ contribution: action.payload.contribution }];
+
+    // If the user switches their scope to adjust their voluntary contributions
+    // from yearly to one off, the entire contributions array must be wiped besides
+    // the last contribution as that is what the user has currently selected
+    } else if (action.type === ACTIONS.SWITCH) {
+        return [contributions[contributions.length - 1]];
     } else {
         return contributions;
     }
 }
 
-//
+// This input screen will take in all the user's details so that the impact of their
+// voluntary contribution can be calculated.
+// I thought about splitting up more of the HTML into their own separate functions,
+// but felt that was unnecessary
 function InputScreen(props) {
 
-    const [contribution, dispatch] = useReducer(reducer, []);
+    const [contributions, dispatch] = useReducer(reducer, [{ contribution: 100 }]);
     const [userInfo, setInfo] = useState({
-        age: 0,
+        age: 18,
         salary: 0,
-        frequency: 0,
-        isYearly: null
+        frequency: 1,
+        isYearly: null,
+        isCalculate: false
     });
+    let lastYearlyRef = useRef(null);
 
     // Create an array of valid ages before retirement which allows a user to
     // select their age
@@ -69,6 +86,13 @@ function InputScreen(props) {
             return { ...prevInfo, isYearly: bool };
         });
     }
+
+    useEffect(() => {
+        if (lastYearlyRef.current !== null && lastYearlyRef.current !== userInfo.isYearly) {
+            dispatch({ type: ACTIONS.SWITCH });
+            lastYearlyRef.current = userInfo.isYearly
+        }
+    });
 
     if (props.pageNum === 2) {
         return (
@@ -114,16 +138,16 @@ function InputScreen(props) {
                             style={{maxWidth:"fit-content", marginLeft: "7vmax"}}
                             onChange={(e) => dispatch({ type: ACTIONS.ADD, payload: { contribution: e.target.value } })}
                         >
-                            <option value="100">Take shorter showers</option>
-                            <option value="200">Drink 1 less coffee</option>
-                            <option value="300">Stop ordering food delivery</option>
-                            <option value="400">Stop eating confectionaries</option>
-                            <option value="500">Smoke 1 less packet of cigarettes</option>
-                            <option value="600">Spend less nights out at the bar</option>
-                            <option value="700">BYO water bottle everywhere</option>
-                            <option value="800">Don't bet on anything for a year</option>
-                            <option value="900">Only take public transport to work</option>
-                            <option value="1000">Eat out out less</option>
+                            <option value={100}>Take shorter showers</option>
+                            <option value={200}>Drink 1 less coffee</option>
+                            <option value={300}>Stop ordering food delivery</option>
+                            <option value={400}>Stop eating confectionaries</option>
+                            <option value={500}>Smoke 1 less packet of cigarettes</option>
+                            <option value={600}>Spend less nights out at the bar</option>
+                            <option value={700}>BYO water bottle everywhere</option>
+                            <option value={800}>Don't bet on anything for a year</option>
+                            <option value={900}>Only take public transport to work</option>
+                            <option value={1000}>Eat out out less</option>
                         </select>
                     </div>
                 </div>
@@ -156,7 +180,7 @@ function InputScreen(props) {
                     <h2 style={{color:"#e5007e"}}>Please Select How Long You Would Like To Reinvest Your Savings For
                     <span className="material-icons md-48" style={{verticalAlign: "-10px", fontSize:"40px"}}>account_balance</span>
                     </h2>
-                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} >
+                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} onChange={(e) => setFrequency(e.target.value)}>
                         {duration.map((item) => {
                             const isValidYear = (parseInt(item) + parseInt(userInfo.age)) <= 65;
                             if (isValidYear) {
@@ -164,6 +188,7 @@ function InputScreen(props) {
                                     <option key={item}>{item}</option>
                                 );
                             }
+                            return null;
                         })}
                     </select>
                 </div>}
@@ -181,7 +206,15 @@ function InputScreen(props) {
                         calculate
                         </span>
                     </button>}
-                    {isValidSalary && <button className="btn btn-lg btn-dark" style={{height:"65px", width: "200px"}}>
+                    {isValidSalary &&
+                    <button
+                        className="btn btn-lg btn-dark"
+                        style={{height:"65px", width: "200px"}}
+                        onClick={() => setInfo((prevInfo) => {
+                            lastYearlyRef.current = prevInfo.isYearly;
+                            return { ...prevInfo, calculate: true };
+                        })}
+                    >
                         <span>Calculate</span>
                         <span className="material-icons md-48" style={{verticalAlign: "-14px", fontSize:"40px", marginLeft: "10px"}}>
                         calculate
@@ -192,7 +225,8 @@ function InputScreen(props) {
                 {/*
                     Passing in the object like this works!
                 */}
-                <OneOffSummary userInfo={userInfo}/>
+                {userInfo.calculate && !userInfo.isYearly &&
+                    <OneOffSummary userInfo={userInfo} contribution={contributions[0].contribution}/>}
 
             </div>
         );

@@ -31,7 +31,7 @@ export function DoesGovContribute(salary) {
     }
 
     const awareSuperLink =
-        <a href="https://aware.com.au/member/superannuation-and-insurance/contributions/government-co-contributions" target="_blank">
+        <a href="https://aware.com.au/member/superannuation-and-insurance/contributions/government-co-contributions" target="_blank" rel="noreferrer">
         Aware Super
         </a>;
 
@@ -86,7 +86,7 @@ const contributionsExplained =
 
 export const contributionsModal = <Modal title="How Much Did I Voluntarily Contribute?" text={contributionsExplained} info={true}/>;
 
-//
+// This is meant to replicate a form that a user might fill when they make a voluntary contribution
 export function contributionsInfo(contribution) {
 
     return (
@@ -100,3 +100,13 @@ export function contributionsInfo(contribution) {
             <button type="button" className="btn btn-success">Confirm</button>
         </div>);
 }
+
+// This information is used to explain details about items in the rewards table
+export const comfortItemExplained = "The Comfort Item is how much your voluntary contributions are worth at retirement, if it was a physical item.";
+export const netflixExplained = "A Netflix Premium Plan costs $20 per month, and this demonstrates how many extra months you could enjoy this plan in retirement if you voluntarily contribute to your Super.";
+export const extraYearsExplained =
+    <div>
+        How Long It Will Last indicates how many more years you could live modestly in retirement if you voluntarily contribute to your Super.
+        <br/><br/>
+        This value is based upon <a target="_blank" href="https://www.superannuation.asn.au/resources/retirement-standard" rel="noreferrer">ASFA's Retirement Standard</a>
+    </div>;
