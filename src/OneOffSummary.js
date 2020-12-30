@@ -34,13 +34,14 @@ function calculateSuper(userInfo, contribution) {
         }
 
         superValue *= 1.035;
-        superValue = Math.round(superValue);
         yearsContributed++;
     }
+    superValue = Math.round(superValue);
 
     return superValue;
 }
 
+//
 function OneOffSummary(props) {
 
     let superValue = calculateSuper(props.userInfo, props.contribution);

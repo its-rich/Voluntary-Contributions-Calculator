@@ -156,7 +156,6 @@ function RewardsTable(props) {
     const [showExtraYears,  setShowExtraYears]  = useState(false);
 
     function CreateRow(icon) {
-
         if (icon === "comfort") {
             return (
                 <th scope="row">

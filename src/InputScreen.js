@@ -2,6 +2,7 @@ import React, { useEffect, useState, useReducer, useRef } from 'react';
 import './App.css';
 import { DoesGovContribute, assumptionsModal } from './modal/ModalInfo.js';
 import OneOffSummary from './OneOffSummary.js';
+import YearlySummary from './YearlySummary.js';
 
 // These actions/enumerated types represent a set actions that need to be
 // performed on the contributions state array
@@ -37,7 +38,14 @@ function reducer(contributions, action) {
 // but felt that was unnecessary
 function InputScreen(props) {
 
+    // I wanted to use the useReducer function, which is why I have structured
+    // my contributions this way. Similarly since I am using useReducer, I thought
+    // I would just make it an array of objects as I will probably encounter
+    // a situation where I will have to structure data like this in the future
     const [contributions, dispatch] = useReducer(reducer, [{ contribution: 100 }]);
+
+    // In hindsight the salary should also be an array since when a user goes
+    // back to previous years, their salary should be updated
     const [userInfo, setInfo] = useState({
         age: 18,
         salary: 0,
@@ -61,13 +69,13 @@ function InputScreen(props) {
         duration.push(i);
     }
 
-    function setAge(age) {
+    function SetAge(age) {
         setInfo((prevInfo) => {
             return { ...prevInfo, age: age }
         });
     }
 
-    function setSalary(salary) {
+    function SetSalary(salary) {
         setInfo((prevInfo) => {
             return { ...prevInfo, salary: salary };
         });
@@ -75,16 +83,24 @@ function InputScreen(props) {
 
     const isValidSalary = userInfo.salary >= 0 && userInfo.salary !== '';
 
-    function setFrequency(frequency) {
+    function SetFrequency(frequency) {
         setInfo((prevInfo) => {
             return { ...prevInfo, frequency: frequency };
         });
     }
 
-    function setYearly(bool) {
+    function SetYearly(bool) {
         setInfo((prevInfo) => {
             return { ...prevInfo, isYearly: bool };
         });
+    }
+
+    function SetContribution(contribution) {
+        // if (userInfo.isYearly) {
+        //     dispatch({ type: ACTIONS.PUSH, payload: { contribution: contribution } });
+        // } else {
+            dispatch({ type: ACTIONS.ADD, payload: { contribution: Number.parseInt(contribution) } });
+        // }
     }
 
     useEffect(() => {
@@ -106,7 +122,7 @@ function InputScreen(props) {
                     <h2 style={{color:"#e5007e"}}>Please Select Your Age
                         <span className="material-icons md-48" style={{verticalAlign: "-10px", fontSize:"40px"}}>person_search</span>
                     </h2>
-                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} onChange={(e) => setAge(e.target.value)}>
+                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} onChange={(e) => SetAge(e.target.value)}>
                         {ages.map((item) => {
                             return (
                                 <option key={item}>{item}</option>
@@ -120,9 +136,8 @@ function InputScreen(props) {
                         <span className="material-icons md-48" style={{verticalAlign: "-10px", fontSize:"40px"}}>attach_money</span>
                     </h2>
                     {!isValidSalary && <h2 style={{color:"red"}}>If you earn nothing, just put $0</h2>}
-                    <input type="number" value={userInfo.salary} onChange={(e) => setSalary(e.target.value)}></input>
+                    <input type="number" value={userInfo.salary} onChange={(e) => SetSalary(e.target.value)}></input>
                 </div>
-
 
                 {/*
                 I thought about changing this such that it would take the sacrifices/commitments from a database for
@@ -136,7 +151,7 @@ function InputScreen(props) {
                         <select
                             className="form-control"
                             style={{maxWidth:"fit-content", marginLeft: "7vmax"}}
-                            onChange={(e) => dispatch({ type: ACTIONS.ADD, payload: { contribution: e.target.value } })}
+                            onChange={(e) => SetContribution(e.target.value)}
                         >
                             <option value={100}>Take shorter showers</option>
                             <option value={200}>Drink 1 less coffee</option>
@@ -157,7 +172,7 @@ function InputScreen(props) {
                     <div className="row">
                         <div className="col">
                             <div className="yesButton">
-                                <button className="btn btn-lg btn-dark" style={{height:"65px", width: "200px"}} onClick={() => setYearly(true)}>
+                                <button className="btn btn-lg btn-dark" style={{height:"65px", width: "200px"}} onClick={() => SetYearly(true)}>
                                     <span>Yes</span>
                                     <span className="material-icons md-48" style={{verticalAlign: "-14px", fontSize:"40px", marginLeft: "10px"}}>
                                     check_circle
@@ -166,7 +181,7 @@ function InputScreen(props) {
                             </div>
                         </div>
                         <div className="col">
-                            <button className="btn btn-lg btn-dark" style={{height:"65px", width: "200px"}} onClick={() => setYearly(false)}>
+                            <button className="btn btn-lg btn-dark" style={{height:"65px", width: "200px"}} onClick={() => SetYearly(false)}>
                                 <span>No</span>
                                 <span className="material-icons md-48" style={{verticalAlign: "-14px", fontSize:"40px", marginLeft: "10px"}}>
                                 clear
@@ -180,7 +195,7 @@ function InputScreen(props) {
                     <h2 style={{color:"#e5007e"}}>Please Select How Long You Would Like To Reinvest Your Savings For
                     <span className="material-icons md-48" style={{verticalAlign: "-10px", fontSize:"40px"}}>account_balance</span>
                     </h2>
-                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} onChange={(e) => setFrequency(e.target.value)}>
+                    <select className="form-control" style={{maxWidth:"fit-content", marginLeft:"47vw"}} onChange={(e) => SetFrequency(e.target.value)}>
                         {duration.map((item) => {
                             const isValidYear = (parseInt(item) + parseInt(userInfo.age)) <= 65;
                             if (isValidYear) {
@@ -212,7 +227,7 @@ function InputScreen(props) {
                         style={{height:"65px", width: "200px"}}
                         onClick={() => setInfo((prevInfo) => {
                             lastYearlyRef.current = prevInfo.isYearly;
-                            return { ...prevInfo, calculate: true };
+                            return { ...prevInfo, isCalculate: true };
                         })}
                     >
                         <span>Calculate</span>
@@ -225,8 +240,10 @@ function InputScreen(props) {
                 {/*
                     Passing in the object like this works!
                 */}
-                {userInfo.calculate && !userInfo.isYearly &&
+                {userInfo.isCalculate && !userInfo.isYearly &&
                     <OneOffSummary userInfo={userInfo} contribution={contributions[0].contribution}/>}
+                {userInfo.isCalculate && userInfo.isYearly &&
+                    <YearlySummary userInfo={userInfo} contributions={contributions}/>}
 
             </div>
         );
