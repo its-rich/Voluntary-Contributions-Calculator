@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../App.css';
 import CountUp from 'react-countup';
-import { contributionsModal } from './modal/ModalInfo.js';
-import RewardProgressBar from './RewardProgressBar.js';
-import RewardsTable from './RewardsTable.js';
+import { contributionsModal } from '../modal/ModalInfo.js';
+import RewardProgressBar from '../rewards/RewardProgressBar.js';
+import RewardsTable from '../rewards/RewardsTable.js';
 import MoreInfo from './MoreInfo.js';
 
+// This will apply a user's voluntary contribution, compounding interest and any
+// government co-contribution to their super and return the new increased value
+// of their super
 function CompoundSuper(superValue, salary, contribution) {
 
     superValue += contribution;
@@ -28,26 +31,30 @@ function CompoundSuper(superValue, salary, contribution) {
     return superValue;
 }
 
+// To find how much a user's super value would increase from their voluntary contribution
+// just find the difference from the previous value of their super
 function FindSuperIncrease(superValues) {
 
-    let prev = 0;
-    let curr = 0;
-
-    for (let i = 0; i < superValues.length; i++) {
-        prev = curr;
-        curr = superValues[i];
+    if (superValues.length === 1) {
+        return superValues[0];
     }
 
-    return curr - prev;
+    return superValues[superValues.length - 1] - superValues[superValues.length - 2];
 }
 
+// Returns a summary of the potential value of a user's super based upon their
+// adjustments. It also allows a user to iterate forwards-backwards each year
+// until they reach retirement
 function YearlySummary(props) {
 
     let [currentAge, setCurrentAge] = useState(props.userInfo.age);
     let [superValues, setSuperValue] = useState([0, CompoundSuper(0, props.userInfo.salary, props.contributions[0].contribution)]);
     let currentYear = new Date().getFullYear() + currentAge - props.userInfo.age + 1;
     let [currSuperValue, setCurrSuperValue] = useState(superValues[superValues.length - 1]);
+    let [stoppedContributing, setStoppedContributing] = useState(false);
 
+    // This decreases the user's age, meaning they go back one year, displaying
+    // their additional super value at that point of time
     function DecrementYear() {
         if (currentAge !== props.userInfo.age) {
             superValues.pop();
@@ -56,9 +63,13 @@ function YearlySummary(props) {
             setCurrentAge((prevAge) => {
                 return prevAge - 1;
             });
+
+            setStoppedContributing(false);
         }
     }
 
+    // This increases the user's age, meaning they go forward one year, displaying
+    // their additional super value at that point of time
     function IncrementYear(didContribute) {
         if (currentAge !== 65) {
 
@@ -79,12 +90,18 @@ function YearlySummary(props) {
             setCurrentAge((prevAge) => {
                 return prevAge + 1;
             });
+
+            setStoppedContributing(false);
         }
     }
 
+    // If a user does not want to make any more contributions until they retire
+    // they click on "I'm Done Contributing" button calling this function
+    // Thus this will just compound their superValue until they are 65 years old
     function FinishContributing() {
 
         let lastSuperValue = superValues[superValues.length - 1];
+        stoppedContributing = lastSuperValue;
 
         for (let i = currentAge; i <= 65 ; i++) {
             lastSuperValue *= 1.035;
@@ -95,26 +112,38 @@ function YearlySummary(props) {
         setCurrSuperValue(lastSuperValue);
         setSuperValue(superValues);
         setCurrentAge(65);
+        stoppedContributing -= lastSuperValue;
+        setStoppedContributing(Math.abs(stoppedContributing));
     }
 
-    // TODO
-    // display certain text when at retirement
-    // display certain text when i'm done contributing
     return(
         <div className="output">
 
-            {/*contributionsModal*/}
+            {contributionsModal}
 
             <div className="container" style={{color:"#e5007e", marginTop: "3vh"}}>
-                <div className="row">
+
+                {/*
+                    When the user clicks the "I'm Done Contributing" button
+                    display how much their super has increased since then
+                */}
+                {Number.isInteger(stoppedContributing) && <div className="row">
+                    <div className="col" style={{fontSize: "60px", marginBottom:"5vh", marginTop: "5vh"}}>
+                      Compared To Your Super When You Last Contributed, Your Super Increased By<br/>
+                       <CountUp style={{color:"black"}} start={0} end={stoppedContributing} duration={3} decimal={","} prefix={"$"}/>
+                    </div>
+                </div>}
+                {!Number.isInteger(stoppedContributing) && <div className="row">
                     <div className="col" style={{fontSize: "60px", marginBottom:"5vh", marginTop: "5vh"}}>
                       Compared To Last Year, Your Super Increased By<br/>
                        <CountUp style={{color:"black"}} start={0} end={FindSuperIncrease(superValues)} duration={3} decimal={","} prefix={"$"}/>
                     </div>
-                </div>
+                </div>}
 
-                <RewardsTable superValue={currSuperValue}
-                    title={`In ${currentYear}, Your Super Has Increased By An Additional $${currSuperValue}, Which So Far In Retirement Looks Like:`}/>
+                {currentAge !== 65 && <RewardsTable superValue={currSuperValue}
+                    title={`In ${currentYear}, Your Super Has Increased By An Additional $${currSuperValue}, Which So Far In Retirement Looks Like:`}/>}
+                {currentAge === 65 && <RewardsTable superValue={currSuperValue}
+                    title={`At Retirement in ${currentYear}, Your Super Has Increased By An Additional $${currSuperValue}, Which Looks Like:`}/>}
 
                 <div style={{marginBottom: "5vh"}}>
                     <RewardProgressBar superValue={currSuperValue}/>

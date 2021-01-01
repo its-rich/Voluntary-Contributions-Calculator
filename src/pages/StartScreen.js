@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
-import startIMG from './pictures/images.png';
+import '../App.css';
+import startIMG from '../pictures/images.png';
 
 // This will just display the start screen until the user clicks the start button
 function StartScreen(props) {

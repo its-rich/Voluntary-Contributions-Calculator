@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { contributionsInfo } from './modal/ModalInfo.js';
-import Modal from './modal/Modal.js';
+import { contributionsInfo } from '../modal/ModalInfo.js';
+import Modal from '../modal/Modal.js';
 
 const compoundingInterestExplained =
     <h4 style={{color:"black", fontWeight:"400", paddingLeft:"10%", paddingRight:"10%", marginBottom:"5vh"}}>This is because of <a target="_blank" rel="noreferrer" href="https://aware.com.au/blog/compounding-interest-boost-your-super#:~:text=Compounding%20interest%20snowballs%20your%20savings,will%20help%20you%20in%20retirement.&text=Generally%2C%20if%20you%20earn%20over,grow%20until%20you%20reach%20retirement.">
@@ -16,7 +16,6 @@ function MoreInfo(props) {
     const [contributeNow, setContributeNow] = useState(false);
 
     function OpenFHSS() {
-        console.log(1);
         window.open('https://aware.com.au/blog/first-home-through-super');
     }
 

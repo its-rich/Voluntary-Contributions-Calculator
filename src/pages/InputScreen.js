@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useReducer, useRef } from 'react';
-import './App.css';
-import { DoesGovContribute, assumptionsModal } from './modal/ModalInfo.js';
-import OneOffSummary from './OneOffSummary.js';
-import YearlySummary from './YearlySummary.js';
+import '../App.css';
+import { DoesGovContribute, assumptionsModal } from '../modal/ModalInfo.js';
+import OneOffSummary from '../summaries/OneOffSummary.js';
+import YearlySummary from '../summaries/YearlySummary.js';
 
 // These actions/enumerated types represent a set actions that need to be
-// performed on the contributions state array
+// performed on the contributions state array 
 const ACTIONS = {
-    PUSH: 'push-contribution',
     ADD: 'add-contribution',
-    POP: 'pop-contribution',
     SWITCH: 'switch-scope'
 }
 
@@ -17,9 +15,7 @@ const ACTIONS = {
 //          Same Input ==> Expected Output
 // Always returns a new state object as the argument state is immutabile
 function reducer(contributions, action) {
-    if (action.type === ACTIONS.PUSH) {
-        return [...contributions, { contribution: action.payload.contribution }];
-    } else if (action.type === ACTIONS.ADD) {
+    if (action.type === ACTIONS.ADD) {
         return [{ contribution: action.payload.contribution }];
 
     // If the user switches their scope to adjust their voluntary contributions
@@ -53,7 +49,7 @@ function InputScreen(props) {
         isYearly: null,
         isCalculate: false
     });
-    let lastYearlyRef = useRef(null);
+    let prevYearlyRef = useRef(null);
 
     // Create an array of valid ages before retirement which allows a user to
     // select their age
@@ -96,19 +92,18 @@ function InputScreen(props) {
     }
 
     function SetContribution(contribution) {
-        // if (userInfo.isYearly) {
-        //     dispatch({ type: ACTIONS.PUSH, payload: { contribution: contribution } });
-        // } else {
-            dispatch({ type: ACTIONS.ADD, payload: { contribution: Number.parseInt(contribution) } });
-        // }
+        dispatch({ type: ACTIONS.ADD, payload: { contribution: Number.parseInt(contribution) } });
     }
 
+    // Only do something when userInfo.isYearly has changed
+    // If isYearly is different from its previous value, then dispatch a switch
+    // to properly change which page is displayed, then update the prevYearlyRef
     useEffect(() => {
-        if (lastYearlyRef.current !== null && lastYearlyRef.current !== userInfo.isYearly) {
+        if (prevYearlyRef.current !== null && prevYearlyRef.current !== userInfo.isYearly) {
             dispatch({ type: ACTIONS.SWITCH });
-            lastYearlyRef.current = userInfo.isYearly
+            prevYearlyRef.current = userInfo.isYearly
         }
-    });
+    }, [userInfo.isYearly]);
 
     if (props.pageNum === 2) {
         return (
@@ -226,7 +221,7 @@ function InputScreen(props) {
                         className="btn btn-lg btn-dark"
                         style={{height:"65px", width: "200px"}}
                         onClick={() => setInfo((prevInfo) => {
-                            lastYearlyRef.current = prevInfo.isYearly;
+                            prevYearlyRef.current = prevInfo.isYearly;
                             return { ...prevInfo, isCalculate: true };
                         })}
                     >

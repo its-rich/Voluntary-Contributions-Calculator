@@ -155,20 +155,11 @@ body {
     }
 }
 
-
-
 .modal {
     display: block;
 }
 
 .moreinfo {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    z-index: 2;
-}
-
-.moreinfo2 {
     position: absolute;
     right: 0px;
     z-index: 2;

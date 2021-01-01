@@ -1,12 +1,14 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import CountUp from 'react-countup';
-import { contributionsModal } from './modal/ModalInfo.js';
-import RewardProgressBar from './RewardProgressBar.js';
-import RewardsTable from './RewardsTable.js';
+import { contributionsModal } from '../modal/ModalInfo.js';
+import RewardProgressBar from '../rewards/RewardProgressBar.js';
+import RewardsTable from '../rewards/RewardsTable.js';
 import MoreInfo from './MoreInfo.js';
 
-//
+// Calculate the impact of a user's voluntary contributions based on their salary
+// and how many years they will contribute. This will return a compounded value
+// based purely on these metrics
 function calculateSuper(userInfo, contribution) {
 
     let superValue = 0;
@@ -41,7 +43,9 @@ function calculateSuper(userInfo, contribution) {
     return superValue;
 }
 
-//
+// Returns a summary of the impact on a user's super based purely upon their
+// voluntary contribution and how many years they contributed for
+// (includes government co-contribution if applicable)
 function OneOffSummary(props) {
 
     let superValue = calculateSuper(props.userInfo, props.contribution);
@@ -49,7 +53,7 @@ function OneOffSummary(props) {
     return(
         <div className="output">
 
-            {/*contributionsModal*/}
+            {contributionsModal}
 
             <div className="container" style={{color:"#e5007e", marginTop: "3vh"}}>
                 <div className="row">
@@ -68,6 +72,5 @@ function OneOffSummary(props) {
         </div>
     );
 };
-
 
 export default OneOffSummary;

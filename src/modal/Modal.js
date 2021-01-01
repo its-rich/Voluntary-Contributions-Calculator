@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import '../App.css';
 
 // This is just a generic Modal that is will display a specific set of text
@@ -8,9 +8,12 @@ function Modal(props) {
     const [isVisible, setVisible] = useState(props.show);
     let prevPropsRef = useRef(props.show);
 
-    function ChangeVisibility() {
+    // Returns & stores the actual function itself in a variable
+    // We only create a new function when we need to but we don't need to here
+    // as the referential equality never changes
+    const ChangeVisibility = useCallback(() => {
         isVisible ? setVisible(false) : setVisible(true);
-    }
+    }, [isVisible]);
 
     useEffect(() => {
 
@@ -20,8 +23,9 @@ function Modal(props) {
             prevPropsRef.current = !prevPropsRef.current;
             ChangeVisibility();
         }
-    })
+    }, [props.show, ChangeVisibility]);
 
+    // If the modal is meant to be visible then display it & its contents
     if (isVisible) {
         return (
             <div>
@@ -33,7 +37,7 @@ function Modal(props) {
                 </div>}
 
                 <div className="modal" tabIndex="-1" role="dialog">
-                  <div className="modal-dialog" role="document">
+                  <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" style={{color:"black"}}>
@@ -54,6 +58,9 @@ function Modal(props) {
                 </div>
             </div>
         );
+
+    // If the modal is meant can be shown by clicking an information icon then
+    // display the icon
     } else if (props.info) {
         return (
             <div className="moreinfo">
@@ -62,6 +69,8 @@ function Modal(props) {
                 </span>
             </div>
         );
+
+    // Otherwise display nothing as the modal should not be visible
     } else {
         return null;
     }

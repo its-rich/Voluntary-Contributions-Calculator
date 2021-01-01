@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import IntroScreen from './IntroScreen.js';
-import StartScreen from './StartScreen.js';
-import InputScreen from './InputScreen.js';
+import IntroScreen from './pages/IntroScreen.js';
+import StartScreen from './pages/StartScreen.js';
+import InputScreen from './pages/InputScreen.js';
+
+// I learnt how to use hooks primarily from this web series
+// https://www.youtube.com/playlist?list=PLZlA0Gpn_vH8EtggFGERCwMY5u5hOjf-h
 
 function App() {
 
@@ -22,7 +25,7 @@ function App() {
                 () => IncrementPage(), 4000
             );
         }
-    })
+    }, [pageNum]);
 
     return (
         <div className="App">
