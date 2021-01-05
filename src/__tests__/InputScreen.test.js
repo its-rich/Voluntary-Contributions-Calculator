@@ -1,6 +1,6 @@
-import App from '../App.js';
+// import App from '../App.js';
 import InputScreen from '../pages/InputScreen.js';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe("Verify the StartScreen works properly", () => {
 
