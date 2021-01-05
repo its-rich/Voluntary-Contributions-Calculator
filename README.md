@@ -16,7 +16,7 @@ This was developed using ReactJS and is hosted on a Firebase server.
 ## Other Info
 I had originally completed this project using Class Components across 3 separate days, as it had major developments over 3 iterations. Hence the code was plagued by various code smells.
 
-So in order to properly learn React Functional Components & React Hooks, I decided to recreate the project after completing using those methods.
+So in order to properly learn React Functional Components & React Hooks, I decided to recreate the project after completing using those methods. I also have integrated a basic CI/CD workflow using GitHub Actions.
 
 The refactored code is currently released on the hosted website above: https://econ3117.web.app/.
 
