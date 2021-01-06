@@ -1,5 +1,5 @@
-import InputScreen from '../pages/InputScreen.js';
-import { render, screen, fireEvent } from '@testing-library/react';
+// import InputScreen from '../pages/InputScreen.js';
+// import { render, screen, fireEvent } from '@testing-library/react';
 
 // Becasue the OneOffSummary.js & YearlySummary.js rely upon on the
 // "react-step-progress-bar", warnings and errors will be thrown as it relies
