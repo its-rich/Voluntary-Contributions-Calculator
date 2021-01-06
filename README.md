@@ -1,7 +1,7 @@
 # What is this?
 This web application provides a calculator that explains the impact of voluntary contributions on one's super. It was designed to be integrated into Aware Super's existing phone application, thus the UI has been tailored to that theme.
 
-**DISCLAIMER:** This website simplifies a lot of financial information so **PLEASE DO NOT** purely make your financial decisions based off of this calculator. Additionally this is a university project that **IS NOT OFFICIALLY AFFILIATED** with Aware Super.
+**DISCLAIMER:** This website simplifies a lot of financial information so **PLEASE DO NOT** purely make your financial decisions based off of this calculator. Additionally this was completed for a university project, so **I AM NOT OFFICIALLY AFFILIATED** with Aware Super.
 
 ## Features
 * Can see the impact of voluntary contributions over any amount of years
