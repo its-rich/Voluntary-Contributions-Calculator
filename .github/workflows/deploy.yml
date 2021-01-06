@@ -13,27 +13,27 @@ jobs:
   deploy:
      runs-on: ubuntu-latest
      steps:
-       
+
        # actions/ links to [ https://github.com/actions ]
        # which allows you to use an open source action
        - uses: actions/checkout@v2
-         
+
        - name: Set up Node v14
          uses: actions/setup-node@v2
          with:
            node-version: '14.x'
-       
+
        # Run executes a command line command
        - name: Install dependencies & build production version
          run: |
               npm ci
               npm run build
-         
+
        - name: Deploy to Firebase
-         
+
          # From https://github.com/marketplace/actions/github-action-for-firebase
          uses: w9jds/firebase-action@v2.0.0
          with:
            args: deploy --only hosting -P econ3117
-         env: 
+         env:
            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
