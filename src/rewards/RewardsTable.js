@@ -80,7 +80,7 @@ function RewardsTable(props) {
             <div style={{ display:"grid", color: "black"}}>
                 <table className="table table-hover" style={{maxWidth: "100%", width:"auto",margin: "3vw"}}>
                     <thead>
-                        <tr>
+                        <tr key="title" >
                             <th colSpan="3">{props.title}</th>
                         </tr>
                     </thead>
@@ -90,7 +90,7 @@ function RewardsTable(props) {
                         {totalRewards.map((num) => {
                             let key = "reward" + num;
                             return (
-                                <tr>
+                                <tr key={rewards[key].icon}>
                                     {CreateRow(rewards[key].icon)}
 
                                     {Number.isInteger(rewards[key].picture) && <td colSpan={String(rewards[key].picture)}>{rewards[key].text}</td>}

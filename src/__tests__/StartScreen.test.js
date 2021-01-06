@@ -2,9 +2,9 @@ import App from '../App.js';
 import StartScreen from '../pages/StartScreen.js';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-describe("Verify the StartScreen works properly", () => {
+describe("StartScreen Test Suite", () => {
 
-    test("It has all the proper HTML", () => {
+    test("All the HTML rendered", () => {
         render(<StartScreen pageNum={1}/>);
         expect(screen.getByAltText("")).toHaveClass("startIMG");
         expect(screen.getByText("Learn Why You Should Make Voluntary Contributions Today")).toBeInTheDocument();

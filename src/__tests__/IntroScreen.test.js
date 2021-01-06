@@ -6,7 +6,7 @@ import { render, screen } from '@testing-library/react';
 // Describe allows you to have a heading for your test suite
 // it allows you to write what a specific test should achieve
 // expect is a global Jest assertion function
-describe("Verify the IntroScreen works properly", () => {
+describe("IntroScreen Test Suite", () => {
 
     // beforeEach(() => {
     //     jest.useFakeTimers();

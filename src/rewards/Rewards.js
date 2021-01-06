@@ -8,8 +8,8 @@ export function GetReward(superValue) {
     let rewardTiers = [250, 500, 1000, 5000, 10000, 25000, 50000, 75000, 100000, 150000];
     let tier = 250;
 
-    for (let i = 0; i < rewardTiers; i++) {
-        if (superValue < rewardTiers) {
+    for (let i = 0; i < rewardTiers.length; i++) {
+        if (superValue < rewardTiers[i]) {
             break;
         }
         tier = rewardTiers[i];
